@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="buttonText">Click Me!!!</string>
+    <string name="test">Test</string>
+    <string name="objectInfo">TextView</string>
+    <string name="button">Track Me</string>
+</resources>
