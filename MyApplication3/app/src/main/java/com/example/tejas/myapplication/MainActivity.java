@@ -32,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void buttonOnClick(View view) throws MalformedURLException {
+    public void buttonOnClick(View view) {
         textView = findViewById(R.id.textView);
-        trackableObj.add(new Trackable(1,"tejas","indian","Google.com"));
-        trackableObj.add(new Trackable(2,"rishi","indian","Google.com"));
-        trackableObj.add(new Trackable(3,"babloo","indian","Google.com"));
+        trackableObj.add(new Trackable(1,"tejas","student","indian","Google.com"));
+        trackableObj.add(new Trackable(2,"rishi","student","indian","Google.com"));
+        trackableObj.add(new Trackable(3,"babloo","student","indian","Google.com"));
         textView.setText(null);
 
         for (int i=0;i<trackableObj.size();i++){
-            textView.append("\n\n\n\t"+trackableObj.get(i).getName()
+            textView.append("\n\n\n\t"+trackableObj.get(i).getName()+"\n\t"+trackableObj.get(i).getType()
             +"\n\t"+trackableObj.get(i).getCusine()+"\n\t"+trackableObj.get(i).getUrl());
         }
 
