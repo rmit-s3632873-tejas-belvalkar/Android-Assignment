@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         t.test(getApplicationContext());
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
-        textView.setText("Button2 clicked");
+        textView.setText("Button 2 clicked");
 
     }
 
