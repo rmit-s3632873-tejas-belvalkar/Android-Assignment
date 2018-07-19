@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButton2Click(View view){
-
-        TestTrackingService t = new TestTrackingService();
-        t.test(getApplicationContext());
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
         textView.setText("Button 2 clicked");
