@@ -1,13 +1,10 @@
 package com.example.tejas.myapplication;
 
-<<<<<<< HEAD
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-=======
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
->>>>>>> parent of 4e723d7... Date and TIme
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i=0;i<trackableObj.size();i++){
             textView.append("\n\n\n\t"+trackableObj.get(i).getName()+"\n\t"+trackableObj.get(i).getType()
-            +"\n\t"+trackableObj.get(i).getCusine()+"\n\t"+trackableObj.get(i).getUrl());
+                    +"\n\t"+trackableObj.get(i).getCusine()+"\n\t"+trackableObj.get(i).getUrl());
         }
 
         findViewById(R.id.button).setVisibility(View.INVISIBLE);
@@ -76,3 +73,13 @@ public class MainActivity extends AppCompatActivity {
         textView.setText("Button 4 clicked");
     }
 }
+
+
+
+
+
+
+
+
+
+
