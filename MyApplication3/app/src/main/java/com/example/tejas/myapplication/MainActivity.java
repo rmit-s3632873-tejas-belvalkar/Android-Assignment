@@ -1,8 +1,11 @@
 package com.example.tejas.myapplication;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -16,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
+
+    DialogFragment newFragment1,newFragment2;
 
     public static ArrayList<Trackable> trackableObj;
     TextView textView;
@@ -59,12 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void onButton2Click(View view){
-        setContentView(R.layout.tracking_screen);
-        TextView textView = findViewById(R.id.textView2);
-        textView.setText("Button 2 clicked");
 
-    }
 
     public void onButton3Click(View view){
         setContentView(R.layout.tracking_screen);
@@ -76,5 +76,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
         textView.setText("Button 4 clicked");
+    }
+    public void showTimePickerDialog(View v) {
+        newFragment1= new TimePickerFragment();
+        newFragment1.show(getSupportFragmentManager(), "timePicker");
+    }
+    public void showDatePickerDialog(View v) {
+        newFragment2 = new DatePickerFragment();
+        newFragment2.show(getSupportFragmentManager(), "datePicker");
+    }
+    public void onButton2Click(View view){
+        setContentView(R.layout.tracking_screen);
+        TextView textView = findViewById(R.id.textView2);
+
+        TrackingService trackingService = new TrackingService();
+        //trackingService.getTrackingInfoForTimeRange();
+
+        textView.setText("Button 2 clicked");
+
     }
 }
