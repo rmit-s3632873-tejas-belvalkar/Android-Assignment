@@ -4,6 +4,4 @@
     <string name="test">Test</string>
     <string name="objectInfo">TextView</string>
     <string name="button">Track Me</string>
-    <string name="pick_time">pick_time</string>
-    <string name="pick_date">pick_date</string>
 </resources>

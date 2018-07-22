@@ -21,22 +21,4 @@
         android:onClick="goBack"
         android:text="Button"
         android:visibility="visible" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp"
-        android:onClick="showTimePickerDialog"
-        android:text="@string/pick_time" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/null"
-        android:layout_centerHorizontal="true"
-        android:onClick="showDatePickerDialog"
-        android:text="@string/pick_date" />
-
 </RelativeLayout>

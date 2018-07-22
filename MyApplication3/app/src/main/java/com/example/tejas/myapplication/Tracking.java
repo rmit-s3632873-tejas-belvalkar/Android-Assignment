@@ -1,7 +1,6 @@
 package com.example.tejas.myapplication;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Tracking {
 
@@ -14,15 +13,8 @@ public class Tracking {
     SimpleDateFormat targetMeetTime;
     String currentLocation;
     String meetLocation;
-    Date date;
-    int periodMin;
-    int peridSec;
 
 
-    TrackingService trackingService = new TrackingService();
-    public void intialize(){
-        trackingService.getTrackingInfoForTimeRange(date,periodMin,peridSec);
-    }
     public static String randomAlphaNumeric(int count) {
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
