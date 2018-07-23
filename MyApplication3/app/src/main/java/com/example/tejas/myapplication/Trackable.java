@@ -3,7 +3,7 @@ package com.example.tejas.myapplication;
 import java.net.URL;
 
 public class Trackable {
-    int id;
+    String id;
     String name;
     String type;
 
@@ -11,7 +11,7 @@ public class Trackable {
         return type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Trackable {
     String cusine;
     String url;
 
-    Trackable(int id, String name, String type, String cusine, String url){
+    Trackable(String id, String name, String type, String cusine, String url){
         this.id=id;
         this.name=name;
         this.cusine=cusine;

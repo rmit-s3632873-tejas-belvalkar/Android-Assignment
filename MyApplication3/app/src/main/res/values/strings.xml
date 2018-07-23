@@ -8,6 +8,7 @@
     <string name="pick_date">pick_date</string>
     <string name="goBack">Go Back</string>
     <string name="displayTime">Display Time</string>
+    <string name="filter">Enter Name</string>
     <string-array name="planets_array">
         <item>Indian</item>
         <item>Italian</item>

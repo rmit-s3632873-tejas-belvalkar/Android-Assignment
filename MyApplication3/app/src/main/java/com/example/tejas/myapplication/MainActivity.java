@@ -4,13 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Spinner;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -59,16 +59,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonOnClick(View view) {
         textView = findViewById(R.id.textView);
-        trackableObj.add(new Trackable(1, "Tejas", "student", "Indian", "Google.com"));
-        trackableObj.add(new Trackable(2, "Rishi", "student", "German", "Google.com"));
-        trackableObj.add(new Trackable(3, "Babloo", "student", "Italian", "Google.com"));
+        trackableObj.add(new Trackable("1", "Tejas", "student", "Indian", "Google.com"));
+        trackableObj.add(new Trackable("2", "Rishi", "student", "German", "Google.com"));
+        trackableObj.add(new Trackable("3", "Babloo", "student", "Italian", "Google.com"));
         textView.setText(null);
+        FoodTruckParser foodTruckParser = new FoodTruckParser();
+        List<Trackable> foodTruckData;
+        foodTruckData=foodTruckParser.getTrackableList(getApplicationContext());
+        EditText editText = findViewById(R.id.filter);
 
-        for (int i = 0; i < trackableObj.size(); i++) {
+
+        //textView.append("Filter type: "+String.valueOf(editText.getText()));
+
+        for (int i = 0; i < foodTruckData.size(); i++) {
             //textView.setText(choice);
-            //if (trackableObj.get(i).getCusine().equals("Indian"))
-            textView.append("\n\t" + trackableObj.get(i).getName() + "\n\t" + trackableObj.get(i).getType()
-                    + "\n\t" + trackableObj.get(i).getCusine() + "\n\t" + trackableObj.get(i).getUrl()+"\n");
+            if (foodTruckData.get(i).getName().equalsIgnoreCase("curry truck"))
+            {
+                textView.append("NAME:" + foodTruckData.get(i).getName() + "\nTYPE:" + foodTruckData.get(i).getType()
+                        + "\nURL:" + foodTruckData.get(i).getCusine() + "\nCUSINE:" + foodTruckData.get(i).getUrl()+"\n");
+            }
         }
 
         findViewById(R.id.button).setVisibility(View.INVISIBLE);

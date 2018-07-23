@@ -26,7 +26,7 @@ public class TrackingService
     // PRIVATE PORTION
     private static final String LOG_TAG = TrackingService.class.getName();
     private List<TrackingInfo> trackingList = new ArrayList<>();
-    private static Context context;
+    public static Context context;
 
     // Singleton
     TrackingService()
