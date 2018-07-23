@@ -23,17 +23,18 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="58dp"
         android:onClick="buttonOnClick"
-        android:text="@string/buttonText"/>
+        android:text="@string/buttonText" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView"
-        android:layout_marginEnd="34dp"
+        android:layout_alignParentTop="true"
         android:onClick="onButton2Click"
         android:text="@string/button"
         android:visibility="invisible" />
@@ -55,10 +56,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/button2"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="183dp"
         android:onClick="onButton4Click"
         android:text="@string/button"
         android:visibility="invisible" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="252dp"
+        android:spinnerMode="dialog" />
 
 
 </RelativeLayout>

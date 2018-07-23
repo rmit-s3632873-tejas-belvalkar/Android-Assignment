@@ -49,7 +49,18 @@ public class Tracking {
             // PRE: make sure tracking_data.txt contains valid matches
             // PRE: make sure device locale matches provided DateFormat (you can change either device settings or String param)
             DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
-            String searchDate = "15/08/2018 2:15:00 PM";
+            MainActivity m = new MainActivity();
+            hours=m.getHour();
+            hours-=12;
+            minutes=m.getMins();
+            String formattedHours, formattedMins;
+            if (hours>9)
+                formattedHours= ""+hours;
+            else formattedHours= "0"+hours;
+            if (minutes>9)
+                formattedMins= ""+minutes;
+            else formattedMins= "0"+minutes;
+            String searchDate = "05/07/2018 "+formattedHours+":"+formattedMins+":00 PM";
             int searchWindow = 5; // +/- 5 mins
             Date date = dateFormat.parse(searchDate);
             List<TrackingService.TrackingInfo> matched = trackingService

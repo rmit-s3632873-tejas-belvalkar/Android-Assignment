@@ -8,7 +8,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -23,6 +25,19 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     static int hour;
     static int mins;
+    static String choice;
+    int h,m;
+
+    public int getHour() {
+        h=hour;
+        return h;
+    }
+
+    public int getMins() {
+        m=mins;
+        return m;
+    }
+
     static int secs;
     static Calendar c;
     Tracking tracking;
@@ -40,18 +55,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Spinner spinner = findViewById(R.id.spinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
     }
 
     public void buttonOnClick(View view) {
         textView = findViewById(R.id.textView);
-        trackableObj.add(new Trackable(1, "tejas", "student", "indian", "Google.com"));
-        trackableObj.add(new Trackable(2, "rishi", "student", "indian", "Google.com"));
-        trackableObj.add(new Trackable(3, "babloo", "student", "indian", "Google.com"));
+        trackableObj.add(new Trackable(1, "Tejas", "student", "Indian", "Google.com"));
+        trackableObj.add(new Trackable(2, "Rishi", "student", "German", "Google.com"));
+        trackableObj.add(new Trackable(3, "Babloo", "student", "Italian", "Google.com"));
         textView.setText(null);
 
         for (int i = 0; i < trackableObj.size(); i++) {
-            textView.append("\n\n\n\t" + trackableObj.get(i).getName() + "\n\t" + trackableObj.get(i).getType()
-                    + "\n\t" + trackableObj.get(i).getCusine() + "\n\t" + trackableObj.get(i).getUrl());
+            //textView.setText(choice);
+            //if (trackableObj.get(i).getCusine().equals("Indian"))
+            textView.append("\n\t" + trackableObj.get(i).getName() + "\n\t" + trackableObj.get(i).getType()
+                    + "\n\t" + trackableObj.get(i).getCusine() + "\n\t" + trackableObj.get(i).getUrl()+"\n");
         }
 
         findViewById(R.id.button).setVisibility(View.INVISIBLE);
@@ -90,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
         Tracking.createTracking(this);
         try {
             SimpleDateFormat sc = new SimpleDateFormat("dd/MM/yyyy");
-            tracking = new Tracking(sc.parse(D+"/"+M+"/"+Y),hour,mins);
             locs.setText("ON "+D+"/"+M+"/"+Y+" at "+hour+":"+mins);
             List<TrackingService.TrackingInfo> trackingInfos = new ArrayList<>();
             trackingInfos.addAll(trackingService.getTrackingInfoForTimeRange(sc.parse(D+"/"+M+"/"+Y),mins,00));
-            //locs.append(trackingInfos.get(0).latitude+"  ");
+            tracking = new Tracking(sc.parse(D+"/"+M+"/"+Y),hour,mins);
         } catch (Exception e) {
-            locs.setText(e.getMessage());
+            TextView textView1 = findViewById(R.id.exeptionArea);
+            textView1.setVisibility(View.VISIBLE);
+            textView1.setText(e.getMessage());
         }
 
 
