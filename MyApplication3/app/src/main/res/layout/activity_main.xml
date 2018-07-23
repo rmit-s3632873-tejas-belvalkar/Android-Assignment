@@ -7,6 +7,14 @@
     tools:context=".MainActivity">
 
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -60,15 +68,6 @@
         android:onClick="onButton4Click"
         android:text="@string/button"
         android:visibility="invisible" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="252dp"
-        android:spinnerMode="dialog" />
 
 
 </RelativeLayout>
