@@ -12,17 +12,23 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static ArrayList<Trackable> trackableObj;
     TextView textView;
-    public static int hour;
-    public static int mins;
-    public static int secs;
+    static int hour;
+    static int mins;
+    static int secs;
     static Calendar c;
+    Tracking tracking;
+    static int Y;
+    static int M;
+    static int D;
 
 
     MainActivity() {
@@ -80,8 +86,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         TextView locs = findViewById(R.id.textView3);
-        for (int i=0;i<trackingService.getTrackingInfoForTimeRange(c.getTime(),mins,secs).size();i++){
-            System.out.println(trackingService.getTrackingInfoForTimeRange(c.getTime(),mins,secs).get(i));
+        TestTrackingService.test(this);
+        Tracking.createTracking(this);
+        try {
+            SimpleDateFormat sc = new SimpleDateFormat("dd/MM/yyyy");
+            tracking = new Tracking(sc.parse(D+"/"+M+"/"+Y),hour,mins);
+            locs.setText("ON "+D+"/"+M+"/"+Y+" at "+hour+":"+mins);
+            List<TrackingService.TrackingInfo> trackingInfos = new ArrayList<>();
+            trackingInfos.addAll(trackingService.getTrackingInfoForTimeRange(sc.parse(D+"/"+M+"/"+Y),mins,00));
+            //locs.append(trackingInfos.get(0).latitude+"  ");
+        } catch (Exception e) {
+            locs.setText(e.getMessage());
         }
 
 
@@ -123,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            Y=year;
+            M=month;
+            D=day;
         }
 
     }
@@ -146,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
+            hour=hourOfDay;
+            mins=minute;
+
+
         }
     }
 
