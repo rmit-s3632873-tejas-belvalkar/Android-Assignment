@@ -4,29 +4,33 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.text.util.Linkify;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ArrayList<Trackable> trackableObj;
+    int index;
     TextView textView;
     static int hour;
     static int mins;
-    static String choice;
     int h,m;
+    List<Button> buttons = new ArrayList<>();
+    List<Trackable> temp = new ArrayList<>();
 
     public int getHour() {
         h=hour;
@@ -46,11 +50,6 @@ public class MainActivity extends AppCompatActivity {
     static int D;
 
 
-    MainActivity() {
-        trackableObj = new ArrayList<>();
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,36 +57,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonOnClick(View view) {
+        buttons.add(findViewById(R.id.button4));
+        buttons.add(findViewById(R.id.button3));
+        buttons.add(findViewById(R.id.button2));
         textView = findViewById(R.id.textView);
-        trackableObj.add(new Trackable("1", "Tejas", "student", "Indian", "Google.com"));
-        trackableObj.add(new Trackable("2", "Rishi", "student", "German", "Google.com"));
-        trackableObj.add(new Trackable("3", "Babloo", "student", "Italian", "Google.com"));
+        buttons.forEach(c->c.setVisibility(View.INVISIBLE));
         textView.setText(null);
         FoodTruckParser foodTruckParser = new FoodTruckParser();
         List<Trackable> foodTruckData;
         foodTruckData=foodTruckParser.getTrackableList(getApplicationContext());
-        EditText editText = findViewById(R.id.filter);
+        EditText editText = findViewById(R.id.plain_text_input);
 
 
-        //textView.append("Filter type: "+String.valueOf(editText.getText()));
+        textView.append("Filter type: "+String.valueOf(editText.getText()));
+        textView.setVisibility(View.VISIBLE);
 
-        for (int i = 0; i < foodTruckData.size(); i++) {
-            //textView.setText(choice);
-            if (foodTruckData.get(i).getName().equalsIgnoreCase("curry truck"))
-            {
-                textView.append("NAME:" + foodTruckData.get(i).getName() + "\nTYPE:" + foodTruckData.get(i).getType()
-                        + "\nURL:" + foodTruckData.get(i).getCusine() + "\nCUSINE:" + foodTruckData.get(i).getUrl()+"\n");
-            }
+        AtomicInteger i= new AtomicInteger();
+        foodTruckData.forEach((c)->{ if(c.getName().equalsIgnoreCase(String.valueOf(editText.getText()))){
+            textView.append("\nNAME:" + c.getName() + "\nTYPE:" + c.getType()
+                    + "\nCUSINE:" + c.getCusine() + "URL:" + c.getUrl());
+            temp.add(c);
+            buttons.get(i.get()).setVisibility(View.VISIBLE);
+            i.getAndIncrement();
         }
-
-        findViewById(R.id.button).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button2).setVisibility(View.VISIBLE);
-        findViewById(R.id.button3).setVisibility(View.VISIBLE);
-        findViewById(R.id.button4).setVisibility(View.VISIBLE);
-
-        trackableObj.removeAll(trackableObj);
-
-
+        });
     }
 
     DialogFragment timeFragment, dateFragment;
@@ -108,18 +101,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showList(View view) {
-        TrackingService trackingService = new TrackingService();
 
 
         TextView locs = findViewById(R.id.textView3);
-        TestTrackingService.test(this);
+        //
+        // TestTrackingService.test(this);
         Tracking.createTracking(this);
         try {
             SimpleDateFormat sc = new SimpleDateFormat("dd/MM/yyyy");
-            locs.setText("ON "+D+"/"+M+"/"+Y+" at "+hour+":"+mins);
-            List<TrackingService.TrackingInfo> trackingInfos = new ArrayList<>();
-            trackingInfos.addAll(trackingService.getTrackingInfoForTimeRange(sc.parse(D+"/"+M+"/"+Y),mins,00));
+            SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat hours = new SimpleDateFormat("mm");
+            M++;
+            locs.setText("ON "+D+"/"+M+"/"+Y+" at "+hour+":"+mins+" PM");
+            M--;
+
             tracking = new Tracking(sc.parse(D+"/"+M+"/"+Y),hour,mins);
+            //locs.append("\nINDEX=>"+Integer.parseInt(hours.format(t.date)+"\nFood truck co-ordinates:");
+            List <TrackingService.TrackingInfo> trackingInfos = new ArrayList<>();
+
+            for (TrackingService.TrackingInfo t:tracking.getData()
+                 ) {
+                if ((t.trackableId==index)&&(Integer.parseInt(hours.format(t.date))>=mins-5&&Integer.parseInt(hours.format(t.date))<=mins+5))
+                {
+                    if (!trackingInfos.contains(t))
+                        trackingInfos.add(t);
+                }
+            }
+
+            Set<TrackingService.TrackingInfo> hs = new HashSet<>();
+            hs.addAll(trackingInfos);
+            trackingInfos.clear();
+            trackingInfos.addAll(hs);
+
+            for (int i=0;i<trackingInfos.size();i++)
+            locs.append("\nTrackable ID = "+trackingInfos.get(i).trackableId+" SIZE= "+trackingInfos.size()+"\nCo-ordinates: "+trackingInfos.get(i).latitude+" , "
+                    +trackingInfos.get(i).longitude+" at "+time.format(trackingInfos.get(i).date)+" Stop Time: "+trackingInfos.get(i).stopTime);
+
         } catch (Exception e) {
             TextView textView1 = findViewById(R.id.exeptionArea);
             textView1.setVisibility(View.VISIBLE);
@@ -132,20 +149,24 @@ public class MainActivity extends AppCompatActivity {
     public void onButton2Click(View view) {
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
-        textView.setText("Button 2 clicked");
+        textView.setText(temp.get(2).getName()+" was selected!!!");
+        index=3;
 
     }
 
     public void onButton3Click(View view) {
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
-        textView.setText("Button 3 clicked");
+        textView.setText(temp.get(1).getName()+" was selected!!!");
+        index=2;
     }
 
     public void onButton4Click(View view) {
         setContentView(R.layout.tracking_screen);
         TextView textView = findViewById(R.id.textView2);
-        textView.setText("Button 4 clicked");
+        textView.setText(temp.get(0).getName()+" was selected!!!");
+        index=1;
+
     }
 
     public static class DatePickerFragment extends DialogFragment

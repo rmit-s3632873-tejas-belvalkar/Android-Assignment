@@ -30,7 +30,7 @@ public class Trackable {
     String cusine;
     String url;
 
-    Trackable(String id, String name, String type, String cusine, String url){
+    Trackable(String id, String name, String type, String url, String cusine){
         this.id=id;
         this.name=name;
         this.cusine=cusine;

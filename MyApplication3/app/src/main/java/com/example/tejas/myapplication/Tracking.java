@@ -6,6 +6,7 @@ import android.util.Log;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,13 @@ public class Tracking {
     static Date date;
     static int hours,minutes;
     String title;
+
+    public List<TrackingService.TrackingInfo> getData() {
+        return data;
+    }
+
+    static List<TrackingService.TrackingInfo> data = new ArrayList<>();
+
 
 
     Tracking(Date date,int hours,int minutes){
@@ -51,7 +59,7 @@ public class Tracking {
             DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
             MainActivity m = new MainActivity();
             hours=m.getHour();
-            hours-=12;
+            if (hours>12) hours-=12;
             minutes=m.getMins();
             String formattedHours, formattedMins;
             if (hours>9)
@@ -67,6 +75,8 @@ public class Tracking {
                     .getTrackingInfoForTimeRange(date, searchWindow, 0);
             Log.i(trackingID, String.format("Matched Query: %s, +/-%d mins", searchDate, searchWindow));
             trackingService.log(matched);
+            data.addAll(trackingService
+                    .getTrackingInfoForTimeRange(date, searchWindow, 0));
         }
         catch (ParseException e)
         {
